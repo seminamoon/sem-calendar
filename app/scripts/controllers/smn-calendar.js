@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc function
- * @name semCalendarApp.controller:MainCtrl
+ * @name semCalendarApp.controller:SemCalendarCtrl
  * @description
- * # MainCtrl
+ * # SemCalendarCtrl
  * Controller of the semCalendarApp
  */
 angular.module('semCalendarApp')
-    .controller('MainCtrl', function ($scope, $q) {
-
+    .controller('SemCalendarCtrl', function ($scope, $q) {
+        $scope.weeks = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         var getDates = function (year, month) {
             var startDate = moment([year, month]);
             var endDate = moment(startDate).endOf('month');
@@ -46,7 +46,7 @@ angular.module('semCalendarApp')
                             dates.push({id: '', num: ''});
                         }
                         resolve(dates);
-                    }else {
+                    } else {
                         resolve(dates);
                     }
                 });
@@ -58,10 +58,10 @@ angular.module('semCalendarApp')
                     $scope.dates = dates;
                     for (var i = 0; i < endDate.format('D'); i++) {
                         var d = moment(startDate).add(i, 'day');
-                        $scope.dates.push({id: d.format('YYYYMMDD'), num: i + 1})
+                        $scope.dates.push({id: d.format('YYYYMMDD'), num: i + 1});
                     }
-                    if ($scope.dates.length % 7 != 0) {
-                        for (var i = 0; i < ($scope.dates.length % 7); i++) {
+                    if ($scope.dates.length % 7 !== 0) {
+                        for (var a = 0; a < ($scope.dates.length % 7); a++) {
                             $scope.dates.push({id: '', num: ''});
                         }
                     }
@@ -69,69 +69,73 @@ angular.module('semCalendarApp')
             );
         };
 
-        $scope.prevMonth = function(){
-            if($scope.month === 0){
+        $scope.prevMonth = function () {
+            if ($scope.month === 0) {
                 $scope.month = 11;
-                $scope.year --;
-            }else{
-                $scope.month --;
+                $scope.year--;
+            } else {
+                $scope.month--;
             }
             getDates($scope.year, $scope.month);
         };
 
-        $scope.nextMonth = function(){
-            if($scope.month === 11){
+        $scope.nextMonth = function () {
+            if ($scope.month === 11) {
                 $scope.month = 0;
-                $scope.year ++;
-            }else{
-                $scope.month ++;
+                $scope.year++;
+            } else {
+                $scope.month++;
             }
             getDates($scope.year, $scope.month);
         };
 
-        $scope.getToday = function(){
+        $scope.getToday = function () {
             $scope.year = moment().year();
             $scope.month = moment().month();
+            $scope.today = moment().format('YYYYMMDD');
             getDates($scope.year, $scope.month);
         };
+
         $scope.getToday();
 
+        $scope.blankCheck = function(day){
+            if(day.id){
+                $('.'+day.id).addClass('date-hover');
+            }
+        };
     })
 
-
-
-
-    .directive('calendarSemina', function () {
+    .directive('basicCalendar', function () {
         return {
             restrict: 'E',
             template: '<div class="smn-calendar">' +
-            '<div class="year">Semina Calendar</div>' +
-            '' +
-            '<div class="week">' +
-            '<ul>' +
-            '<li>Sun</li>' +
-            '<li>Mon</li>' +
-            '<li>Tue</li>' +
-            '<li>Wed</li>' +
-            '<li>Thu</li>' +
-            '<li>Fri</li>' +
-            '<li>Sat</li>' +
-            '</ul>' +
-            '</div>' +
+                '<div class="header">Semina Calendar</div>' +
+                '<div class="month">' +
+                    '<div>{{year}} / {{month+1}}</div>' +
+                    '<div class="month-control">' +
+                        '<button class="glyphicon glyphicon-menu-left" ng-click="prevMonth()"></button>' +
+                        '<button ng-click="getToday()">Today</button>' +
+                        '<button class="glyphicon glyphicon-menu-right" ng-click="nextMonth()"></button>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="week">' +
+                    '<ul>' +
+                        '<li ng-repeat="week in weeks" ng-bind="week"></li>' +
+                    '</ul>' +
+                '</div>' +
 
-            '<div class="days">' +
-            '<ul>' +
-            '<li>1</li>' +
-            '<li>2</li>' +
-            '<li>3</li>' +
-            '<li>4</li>' +
-            '<li>5</li>' +
-            '<li>6</li>' +
-            '<li>7</li>' +
-            '</ul>' +
-            '</div>' +
+                '<div class="days">' +
+                    '<ul>' +
+                        '<li ng-repeat="day in dates">' +
+                            '<a class="{{day.id}}" ng-mouseover="blankCheck(day)">' +
+                                '<span ng-if="day.id == today "></span>' +
+                                '{{day.num}}' +
+                            '</a>' +
+                        '</li>' +
+                    '</ul>' +
+                '</div>' +
             '</div>'
-        };
+      };
     });
 
 

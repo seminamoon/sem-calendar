@@ -23,7 +23,7 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
+        controller: 'SemCalendarCtrl',
         controllerAs: 'main'
       })
       .otherwise({

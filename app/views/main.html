@@ -1,9 +1,9 @@
-<!--<calendar-semina></calendar-semina>-->
+<!--<basic-calendar></basic-calendar>-->
 
 <div class="smn-calendar">
     <div class="header">Semina Calendar</div>
     <div class="month">
-        <div>{{year}}년 {{month+1}}월</div>
+        <div>{{year}} / {{month+1}}</div>
         <div class="month-control">
             <button class="glyphicon glyphicon-menu-left" ng-click="prevMonth()"></button>
             <button ng-click="getToday()">Today</button>
@@ -12,19 +12,16 @@
     </div>
     <div class="week">
         <ul>
-            <li>Sun</li>
-            <li>Mon</li>
-            <li>Tue</li>
-            <li>Wed</li>
-            <li>Thu</li>
-            <li>Fri</li>
-            <li>Sat</li>
+            <li ng-repeat="week in weeks">{{week}}</li>
         </ul>
     </div>
     <div class="days">
         <ul>
             <li ng-repeat="day in dates">
-                <a>{{day.num}}</a>
+                <a class="{{day.id}}" ng-mouseover="blankCheck(day)">
+                    <span ng-if="day.id == today "></span>
+                    {{day.num}}
+                </a>
             </li>
         </ul>
     </div>
