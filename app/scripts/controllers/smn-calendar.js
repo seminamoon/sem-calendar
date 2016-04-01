@@ -98,44 +98,21 @@ angular.module('semCalendarApp')
 
         $scope.getToday();
 
-        $scope.blankCheck = function(day){
-            if(day.id){
-                $('.'+day.id).addClass('date-hover');
+        $scope.blankCheck = function (day) {
+            if (day.id) {
+                $('.' + day.id).addClass('date-hover');
             }
         };
+
     })
 
     .directive('basicCalendar', function () {
         return {
-            restrict: 'E',
-            template: '<div class="smn-calendar">' +
-                '<div class="header">Semina Calendar</div>' +
-                '<div class="month">' +
-                    '<div>{{year}} / {{month+1}}</div>' +
-                    '<div class="month-control">' +
-                        '<button class="glyphicon glyphicon-menu-left" ng-click="prevMonth()"></button>' +
-                        '<button ng-click="getToday()">Today</button>' +
-                        '<button class="glyphicon glyphicon-menu-right" ng-click="nextMonth()"></button>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="week">' +
-                    '<ul>' +
-                        '<li ng-repeat="week in weeks" ng-bind="week"></li>' +
-                    '</ul>' +
-                '</div>' +
+            restrict: 'EA',
+            transclude: true,
+            templateUrl: '../views/basic-calendar.html'
 
-                '<div class="days">' +
-                    '<ul>' +
-                        '<li ng-repeat="day in dates">' +
-                            '<a class="{{day.id}}" ng-mouseover="blankCheck(day)">' +
-                                '<span ng-if="day.id == today "></span>' +
-                                '{{day.num}}' +
-                            '</a>' +
-                        '</li>' +
-                    '</ul>' +
-                '</div>' +
-            '</div>'
-      };
+        };
     });
 
 

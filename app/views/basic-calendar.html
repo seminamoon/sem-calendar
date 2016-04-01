@@ -1,0 +1,26 @@
+<div class="smn-calendar">
+    <div class="header"><ng-transclude></div>
+    <div class="month">
+        <div>{{year}} / {{month+1}}</div>
+        <div class="month-control">
+            <button ng-click="prevMonth()"><span class="glyphicon glyphicon-menu-left"></span></button>
+            <button ng-click="getToday()">Today</button>
+            <button ng-click="nextMonth()"><span class="glyphicon glyphicon-menu-right"></span></button>
+        </div>
+    </div>
+    <div class="week">
+        <ul>
+            <li ng-repeat="week in weeks" ng-bind="week"></li>
+        </ul>
+    </div>
+    <div class="days">
+        <ul>
+            <li ng-repeat="day in dates">
+                <a class="{{day.id}}" ng-mouseover="blankCheck(day)">
+                    <span ng-if="day.id == today "></span>
+                    {{day.num}}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
