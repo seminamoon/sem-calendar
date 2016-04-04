@@ -1,5 +1,21 @@
 <div class="smn-calendar">
-    <div class="header"><ng-transclude></div>
+
+    <div class="smn-modal">
+        <div class="contents">
+            <div class="smn-header">
+                <span class="glyphicon glyphicon-remove" ng-click="closeModal()"></span>
+            </div>
+            <div class="content">
+                modal
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <span class="glyphicon glyphicon-th-large"></span>
+        <ng-transclude></ng-transclude>
+        <span class="glyphicon glyphicon-plus" ng-click="openModal()"></span>
+    </div>
     <div class="month">
         <div>{{year}} / {{month+1}}</div>
         <div class="month-control">
@@ -16,11 +32,12 @@
     <div class="days">
         <ul>
             <li ng-repeat="day in dates">
-                <a class="{{day.id}}" ng-mouseover="blankCheck(day)">
-                    <span ng-if="day.id == today "></span>
+                <a ng-class="day.id ? 'date-hover' :''" ng-dblclick="doubleClick(day)">
+                    <span ng-if="day.id.substring(3, length) == today "></span>
                     {{day.num}}
                 </a>
             </li>
         </ul>
     </div>
 </div>
+
